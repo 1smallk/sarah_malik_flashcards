@@ -32,7 +32,7 @@ fun Quizlet() {
     var currentFlashcard by remember { mutableStateOf(questions.random()) }
     var userAnswer by remember { mutableStateOf("") }
     val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope() //snackbar shows up in Quizlet
 
     Scaffold(
         snackbarHost = {
@@ -43,8 +43,8 @@ fun Quizlet() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(16.dp), //padding around entire column
+            verticalArrangement = Arrangement.spacedBy(16.dp) // padding in between objects in col
         ) {
             Card(
                 colors = CardDefaults.cardColors(
@@ -54,7 +54,7 @@ fun Quizlet() {
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Text(
+                Text( //stateless
                     text = currentFlashcard.q,
                     modifier = Modifier
                         .padding(16.dp),
@@ -63,14 +63,14 @@ fun Quizlet() {
                 )
             }
 
-            OutlinedTextField(
+            OutlinedTextField( // displays user input
                 value = userAnswer,
-                onValueChange = { userAnswer = it },
+                onValueChange = { userAnswer = it }, //passing in function that sets user inout as userAnswer
                 label = { Text("Your Answer") },
                 modifier = Modifier.fillMaxWidth()
             )
 
-            OutlinedButton(
+            OutlinedButton( // can clear user input and check if correct
                 onClick = {
                     if (userAnswer == currentFlashcard.a) {
                         scope.launch {
@@ -83,7 +83,7 @@ fun Quizlet() {
                     }
                     // Load a new random question after submission
                     currentFlashcard = questions.random()
-                    userAnswer = ""
+                    userAnswer = "" // reassigns userAnswer to empty string until the user gives new answer
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
